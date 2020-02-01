@@ -51,4 +51,14 @@ public class ScheduleTest {
         final Schedule intersectedSchedule = firstSchedule.intersect(secondSchedule);
         assertEquals(2, intersectedSchedule.size());
     }
+
+    @Test
+    public void after_now() {
+        final Schedule schedule = new Schedule(new ArrayList<Interval>() {{
+            add(new Interval(DateTime.now().minusHours(3), DateTime.now().minusHours(2)));
+            add(new Interval(DateTime.now().plusHours(2), DateTime.now().plusHours(3)));
+        }});
+        final Schedule afterNowSchedule = schedule.afterNow();
+        assertEquals(1, afterNowSchedule.size());
+    }
 }
