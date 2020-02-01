@@ -1,5 +1,7 @@
 package org.joda.time;
 
+import org.joda.time.base.AbstractInterval;
+
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Comparator;
@@ -11,6 +13,7 @@ import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
+import java.util.stream.Collectors;
 
 public class Schedule implements Serializable, List<Interval> {
 
@@ -51,6 +54,12 @@ public class Schedule implements Serializable, List<Interval> {
             }
         }
         return new Schedule(intersectedIntervals);
+    }
+
+    public Schedule afterNow() {
+        return this.intervals.stream()
+                .filter(AbstractInterval::isAfterNow)
+                .collect(Collectors.toCollection(Schedule::new));
     }
 
     @Override
